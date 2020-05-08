@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div id="skeerel-button-holder"></div>
+
+    <script type="text/javascript" src="https://api.skeerel.com/assets/v2/javascript/api.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        SkeerelCheckout.insertDefaultButton(document.getElementById("skeerel-button-holder"), "skeerel-pay-button");
+
+        document.getElementById("skeerel-pay-button").onclick = function() {
+            const skeerelCheckout = new SkeerelCheckout(
+                [[${website_id}]], // Website id
+                [[${state}]], // state parameter
+                "[(@{__${baseUrl}__/checkout/complete})]", // redirect url
+                true, // need shipping address?
+                "[(@{__${baseUrl}__/delivery})]?user=__USER__&zip_code=__ZIP_CODE__&city=__CITY__&country=__COUNTRY__", // delivery methods url
+                1000, // amount to pay
+                "eur", // currency
+                null, // profile id
+                null, // custom data
+                true // is test mode?
+            );
+
+            skeerelCheckout.start();
+        };
+        /*]]>*/
+    </script>
+</body>
+</html>
